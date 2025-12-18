@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1 align="center">💸 Rachadinha API 💸</h1>
+<h1 align="center">💸 DivideAí API 💸</h1>
 
 <p align="center">
   <strong>Uma API RESTful para simplificar a divisão de despesas em grupo.</strong>
@@ -17,9 +17,9 @@
 
 ## 🎯 Sobre o Projeto
 
-Este projeto é uma API RESTful completa desenvolvida com as tecnologias mais modernas do ecossistema Java e Spring. O objetivo é resolver o problema universal de gerenciar e dividir despesas em grupo, seja entre amigos, em uma viagem ou nas contas de casa.
+**DivideAí API** é uma solução backend completa desenvolvida com as tecnologias mais modernas do ecossistema Java e Spring. O objetivo é resolver o problema universal de gerenciar e dividir despesas em grupo, seja entre amigos, em uma viagem ou nas contas de casa.
 
-O núcleo da aplicação é a sua robusta camada de serviço, que implementa a lógica de negócio para calcular balanços financeiros de forma precisa, garantindo que ao final de um evento ou de um mês, todos saibam exatamente quem deve o quê para quem.
+O diferencial da aplicação é sua lógica de negócios que, além de registrar gastos, processa o **Balanço Financeiro**, calculando automaticamente as transações necessárias para que todos paguem sua parte justa.
 
 ---
 ## 🛠️ Tecnologias e Conceitos Aplicados
@@ -33,7 +33,7 @@ Esta API foi construída utilizando um conjunto de ferramentas e conceitos de po
 * **Documentação da API:** `SpringDoc OpenAPI (Swagger)`
 * **Gerenciador de Dependências:** `Maven`
 * **Arquitetura:** `API RESTful` em `Arquitetura de 3 Camadas` (Controller, Service, Repository)
-* **Princípios:** `Injeção de Dependências`, `Inversão de Controle (IoC)`, `SOLID`
+* **Princípios:** `Injeção de Dependências`, `Inversão de Controle (IoC)`, `SOLID`, `DTO Pattern`
 
 ---
 
@@ -43,18 +43,17 @@ Para executar este projeto localmente, siga os passos abaixo:
 
 1.  **Clone o repositório:**
     ```sh
-    git clone [https://github.com/gustavorodriDEV/rachadinha-api.git](https://github.com/gustavorodriDEV/rachadinha-api.git)
+    git clone [https://github.com/gustavorodriDEV/divideai-api.git](https://github.com/gustavorodriDEV/divideai-api.git)
     ```
-    *(**Atenção:** Lembre-se de trocar a URL pela URL real do seu repositório)*
 
 2.  **Configure o Banco de Dados:**
-    * Crie um banco de dados no seu PostgreSQL.
-    * Copie o arquivo `src/main/resources/application.properties.example` e renomeie a cópia para `application.properties`.
-    * Altere as propriedades `spring.datasource.url`, `spring.datasource.username` e `spring.datasource.password` com as suas credenciais.
+    * Crie um banco de dados no seu PostgreSQL (ex: `rachadinha_db` ou `divideai_db`).
+    * Verifique o arquivo `src/main/resources/application.properties`.
+    * Certifique-se de que as propriedades `spring.datasource.url`, `spring.datasource.username` e `spring.datasource.password` correspondem às suas credenciais locais.
 
 3.  **Execute a Aplicação:**
-    * Abra o projeto na sua IDE (IntelliJ).
-    * Execute a classe principal `RachadinhaApiApplication.java`.
+    * Abra o projeto na sua IDE (IntelliJ IDEA).
+    * Execute a classe principal `DivideAiApiApplication.java`.
     * *Ou, pelo terminal, na raiz do projeto, execute:*
         ```sh
         mvn spring-boot:run
@@ -65,11 +64,11 @@ Para executar este projeto localmente, siga os passos abaixo:
 
 ---
 
-## Endpoints da API
+## 📚 Endpoints da API
 
 A URL base para todos os endpoints é `/api`.
 
-### Recurso: Grupos (`/grupos`)
+### 1. Grupos (`/grupos`)
 
 | Verbo HTTP | Endpoint               | Descrição                              |
 | :--------- | :--------------------- | :------------------------------------- |
@@ -79,19 +78,34 @@ A URL base para todos os endpoints é `/api`.
 | `PUT`      | `/grupos/{id}`         | Atualiza um grupo existente.           |
 | `DELETE`   | `/grupos/{id}`         | Deleta um grupo específico.            |
 
-### Recurso: Participantes (`/grupos/{idGrupo}/participantes`)
+### 2. Participantes (`/participantes`)
 
 | Verbo HTTP | Endpoint                                           | Descrição                                            |
-| :--------- | :-------------------------------------------       | :--------------------------------------------------  |
-| `POST`     | `/grupos/{idGrupo}/participantes`                  | Cria um novo participante no grupo especificado.     |
-| `GET`      | `/grupos/{idGrupo}/participantes`                  | Lista todos os participantes de um grupo específico. |
-| `GET`      | `/grupos/{idGrupo}/participantes/{idParticipante}` | Busca um participante específico pelo seu ID.        |
-| `PUT`      | `/grupos/{idGrupo}/participantes/{idParticipante}` | Atualiza os dados de um participante existente.      |
-| `DELETE`   | `/grupos/{idGrupo}/participantes/{idParticipante}` | Deleta um participante de um grupo.                  |
+| :--------- | :------------------------------------------------- | :--------------------------------------------------- |
+| `GET`      | `/participantes`                                   | Lista todos os participantes cadastrados no sistema. |
+| `POST`     | `/grupos/{idGrupo}/participantes`                  | Cria um novo participante vinculado a um grupo.      |
+| `GET`      | `/grupos/{idGrupo}/participantes`                  | Lista participantes de um grupo específico.          |
+| `GET`      | `/grupos/{idGrupo}/participantes/{idParticipante}` | Busca detalhes de um participante.                   |
+| `PUT`      | `/grupos/{idGrupo}/participantes/{idParticipante}` | Atualiza dados de um participante.                   |
+| `DELETE`   | `/grupos/{idGrupo}/participantes/{idParticipante}` | Remove um participante do grupo.                     |
 
-*(Mais recursos serão adicionados futuramente)*
+### 3. Despesas (`/despesas`)
+
+| Verbo HTTP | Endpoint                                     | Descrição                                  |
+| :--------- | :------------------------------------------- | :----------------------------------------- |
+| `POST`     | `/grupos/{idGrupo}/despesas`                 | Adiciona uma nova despesa ao grupo.        |
+| `GET`      | `/grupos/{idGrupo}/despesas`                 | Lista todas as despesas do grupo.          |
+| `GET`      | `/grupos/{idGrupo}/despesas/{idDespesa}`     | Busca detalhes de uma despesa específica.  |
+| `PUT`      | `/grupos/{idGrupo}/despesas/{idDespesa}`     | Atualiza valor ou descrição de uma despesa.|
+| `DELETE`   | `/grupos/{idGrupo}/despesas/{idDespesa}`     | Remove uma despesa lançada.                |
+
+### 4. Balanço (`/balanco`)
+
+| Verbo HTTP | Endpoint                        | Descrição |
+| :--------- | :------------------------------ | :-------- |
+| `GET`      | `/grupos/{idGrupo}/balanco`     | **Calcula a divisão de contas.** Retorna quem deve pagar quem para quitar as dívidas do grupo. |
 
 ---
 <div align="center">
-  Feito por Gustavo Rodrigues.
+  Desenvolvido por <strong>Gustavo Rodrigues</strong>.
 </div>
