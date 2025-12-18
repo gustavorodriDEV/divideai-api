@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gustavo</groupId>
-	<artifactId>rachadinha-api</artifactId>
+	<artifactId>divideai-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Rachadinha API</name>
+	<name>DivideAí API</name>
 	<description>API para gestão e divisão de despesas em grupo</description>
 	<url/>
 	<licenses>
